@@ -1,11 +1,9 @@
 package com.equiptrack.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import java.time.LocalDate;
 
 @Entity
-@Data
 @Table(name = "assets")
 public class Asset {
 
@@ -23,15 +21,34 @@ public class Asset {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private AssetStatus status = AssetStatus.AVAILABLE; // Default to AVAILABLE
+    private AssetStatus status = AssetStatus.AVAILABLE;
 
     private LocalDate dateAcquired;
 
-    // This runs before the data is saved to DB
     @PrePersist
     public void prePersist() {
         if (dateAcquired == null) {
-            dateAcquired = LocalDate.now(); // Auto-set today's date
+            dateAcquired = LocalDate.now();
         }
     }
+
+    // --- MANUAL GETTERS AND SETTERS (Fixes your error) ---
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getSerialNumber() { return serialNumber; }
+    public void setSerialNumber(String serialNumber) { this.serialNumber = serialNumber; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public AssetStatus getStatus() { return status; }
+    public void setStatus(AssetStatus status) { this.status = status; }
+
+    public LocalDate getDateAcquired() { return dateAcquired; }
+    public void setDateAcquired(LocalDate dateAcquired) { this.dateAcquired = dateAcquired; }
 }
